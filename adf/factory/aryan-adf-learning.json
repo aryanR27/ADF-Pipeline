@@ -1,0 +1,9 @@
+{
+	"name": "aryan-adf-learning",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e91cc507-2a27-4176-8d74-5819137e14f9",
+		"tenantId": "95fdc76d-8ea9-4638-991d-fb263651110e"
+	}
+}
