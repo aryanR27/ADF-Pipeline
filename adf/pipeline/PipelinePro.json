@@ -60,7 +60,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select count(*) as total_count from @{pipeline().parameters.Schema}.@{pipeline().parameters.Table} where last_updated > '@{activity('Last_Timestamp').output.firstRow.cdc_timestamp}'",
+								"value": "select count(*) as total_count from @{pipeline().parameters.Schema}.@{pipeline().parameters.Table} where last_updated > '@{if(empty(pipeline().parameters.backdate),activity('Last_Timestamp').output.firstRow.cdc_timestamp,pipeline().parameters.backdate)}'",
 								"type": "Expression"
 							}
 						}
@@ -89,8 +89,6 @@
 						{
 							"name": "Copy data from db",
 							"type": "Copy",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
@@ -143,9 +141,16 @@
 							]
 						},
 						{
-							"name": "Copy data1",
+							"name": "Update cdc",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Max CDC",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -160,7 +165,10 @@
 									"additionalColumns": [
 										{
 											"name": "cdc_timestamp",
-											"value": ""
+											"value": {
+												"value": "@activity('Max CDC').output.resultSets[0].rows[0].cdc_timestamp",
+												"type": "Expression"
+											}
 										}
 									],
 									"storeSettings": {
@@ -191,13 +199,13 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "emptyJson_ds",
+									"referenceName": "Json",
 									"type": "DatasetReference"
 								}
 							]
 						},
 						{
-							"name": "Script1",
+							"name": "Max CDC",
 							"type": "Script",
 							"dependsOn": [
 								{
@@ -244,6 +252,9 @@
 			"Table": {
 				"type": "String",
 				"defaultValue": "Orders"
+			},
+			"backdate": {
+				"type": "string"
 			}
 		},
 		"variables": {
