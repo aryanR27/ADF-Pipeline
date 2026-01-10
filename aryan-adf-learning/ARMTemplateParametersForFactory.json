@@ -8,8 +8,20 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://aryanrajazurelearning.dfs.core.windows.net/"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "dfproserver61.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "dfproDB"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "aryanadmin"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/anshlambagit"
