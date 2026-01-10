@@ -26,6 +26,9 @@
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/anshlambagit"
 		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://pokeapi.co/api/v2/pokemon"
+		},
 		"containerUri": {
 			"value": ""
 		},
